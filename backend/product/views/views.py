@@ -3,8 +3,8 @@ from rest_framework.exceptions import NotFound
 from rest_framework.response import Response
 from rest_framework import generics, status
 from rest_framework.pagination import PageNumberPagination
-from .services import ProductService
-from .serializers import ProductSerializer
+from ..services.services import ProductService
+from ..serializers import ProductSerializer
 
 # Pagination for Product List API
 class ProductPagination(PageNumberPagination):

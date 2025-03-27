@@ -1,4 +1,4 @@
-from .models import Product
+from ..models.ProductModel import Product
 
 class ProductRepository:
 
