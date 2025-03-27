@@ -87,10 +87,14 @@ DATABASES = {
     }
 }
 
+MONGO_DATABASE_NAME = "interneers_lab_mongodb"
+MONGO_CONNECTION_STRING = "mongodb://localhost:27017/interneers_lab_mongodb"
+
+# Connect MongoEngine
+import mongoengine
 mongoengine.connect(
-    db="interneers_lab_mongodb",
-    host="localhost",
-    port=27017,
+    db=MONGO_DATABASE_NAME,
+    host=MONGO_CONNECTION_STRING,
     alias="default"
 )
 

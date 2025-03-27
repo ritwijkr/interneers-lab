@@ -2,6 +2,11 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from ..services.ProductCategoryService import ProductCategoryService
+from mongoengine.queryset.visitor import Q
+from django.http import JsonResponse
+from django.views import View
+from product.models.ProductModel import Product
+from product.models.CategoryModel import ProductCategory  # Import your models
 
 class CategoryListView(APIView):
     def get(self, request):
@@ -19,14 +24,35 @@ class CategoryCreateView(APIView):
         except ValueError as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
-class ProductsByCategoryView(APIView):
-    def get(self, request, title):
+class ProductsByCategoryView(View):
+    def get(self, request, category_title):
         try:
-            products = ProductCategoryService.get_products_by_category(title)
-            data = [{"id": str(p.id), "name": p.name, "brand": p.brand} for p in products]
-            return Response(data, status=status.HTTP_200_OK)
-        except ValueError as e:
-            return Response({"error": str(e)}, status=status.HTTP_404_NOT_FOUND)
+            # Find the category by title
+            category = ProductCategory.objects.filter(title=category_title).first()
+            
+            if not category:
+                return JsonResponse({"error": "Category not found"}, status=404)
+
+            # Find products belonging to this category
+            products = Product.objects.filter(category=category)
+
+            # Convert query result to JSON response
+            data = [
+                {
+                    "id": str(p.id),
+                    "name": p.name,
+                    "brand": p.brand,
+                    "price": p.price,
+                    "quantity": p.quantity
+                }
+                for p in products
+            ]
+
+            return JsonResponse(data, safe=False)
+
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
+
 
 class AddProductToCategoryView(APIView):
     def post(self, request):
