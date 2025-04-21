@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Listing</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <script src="{% static 'js/product.js' %}"></script>
+    <nav class="navbar">
+        <div class="navbar-left">
+          <h1>City Mart</h1>
+        </div>
+        <div class="navbar-right">
+          <ul id="category-list">
+            <!-- Categories + 'All Products' will be added dynamically -->
+          </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <h1>Products</h1>
+        <div class="product-wrapper">
+            <div id="product-list" class="product-grid">
+                <!-- Products will be dynamically injected here -->
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
