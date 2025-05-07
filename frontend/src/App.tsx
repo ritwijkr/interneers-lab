@@ -1,26 +1,30 @@
-import React from "react";
-import logo from "./logo.svg";
+import { useState } from "react";
+import Navbar from "./components/Navbar";
+import ProductList from "./components/ProductList";
+import { products } from "./components/data";
 import "./App.css";
+<>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossOrigin="anonymous"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap"
+    rel="stylesheet"
+  ></link>
+</>;
 
-function App() {
+const App = () => {
+  const [category, setCategory] = useState("All Products");
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Navbar onCategorySelect={setCategory} />
+      <ProductList products={products} selectedCategory={category} />
+    </>
   );
-}
+};
 
 export default App;
