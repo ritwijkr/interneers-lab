@@ -9,7 +9,7 @@ function fetchCategories() {
     .then((categories) => {
       const categoryList = document.getElementById("category-list");
       categoryList.innerHTML = "";
-      const Allli = document.createElement("li");
+      const Allli = document.createElement("Allli");
       Allli.textContent = "All Products";
       Allli.onclick = () => fetchProducts("All Products");
       categoryList.appendChild(Allli);
