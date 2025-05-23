@@ -1,5 +1,6 @@
 import mongoengine as me
-from django.utils.timezone import now  
+from mongoengine import Document, StringField, DateTimeField
+import datetime
 from .CategoryModel import ProductCategory
 
 class Product(me.Document):
@@ -9,14 +10,14 @@ class Product(me.Document):
     price = me.FloatField(required=True)
     brand = me.StringField(max_length=100, required=True)  # Enforcing brand as required
     quantity = me.IntField(default=0, min_value=0)
-    created_at = me.DateTimeField(default=now)
-    updated_at = me.DateTimeField(default=now)
+    created_at = DateTimeField(default=datetime.datetime.now)
+    updated_at = DateTimeField(default=datetime.datetime.now)
 
     meta = {'collection': 'products'}
 
     def save(self, *args, **kwargs):
         """Auto-update `updated_at` timestamp on save."""
-        self.updated_at = now()
+        self.updated_at = datetime.datetime.now()
         return super(Product, self).save(*args, **kwargs)
 
     def __str__(self):
