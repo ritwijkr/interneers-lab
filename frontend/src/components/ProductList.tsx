@@ -1,16 +1,18 @@
 import { useState } from "react";
 import { Product as ProductType } from "./types";
 import Product from "./Product";
-import Modal from "./modal";
+import Modal from "./ProductModal";
 
 interface Props {
   products: ProductType[];
   selectedCategory: string;
+  setProducts: (products: ProductType[]) => void;
+  onDeleteProduct: (id: string) => void;
 }
 
-const ITEMS_PER_PAGE = 2;
+const ITEMS_PER_PAGE = 6;
 
-const ProductList = ({ products, selectedCategory }: Props) => {
+const ProductList = ({ products, selectedCategory, setProducts }: Props) => {
   const [selectedProduct, setSelectedProduct] = useState<ProductType | null>(
     null,
   );
@@ -19,7 +21,9 @@ const ProductList = ({ products, selectedCategory }: Props) => {
   const filtered =
     selectedCategory === "All Products"
       ? products
-      : products.filter((p) => p.category.name === selectedCategory);
+      : products.filter(
+          (p) => p.category && p.category.toString() === selectedCategory,
+        );
 
   const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -36,8 +40,11 @@ const ProductList = ({ products, selectedCategory }: Props) => {
         }}
       >
         {paginated.map((product) => (
-          <div key={product.id} onClick={() => setSelectedProduct(product)}>
-            <Product product={product} />
+          <div key={product.id}>
+            <Product
+              product={product}
+              onClick={() => setSelectedProduct(product)}
+            />
           </div>
         ))}
       </div>
@@ -50,7 +57,7 @@ const ProductList = ({ products, selectedCategory }: Props) => {
             style={{
               margin: "0 5px",
               padding: "8px 12px",
-              backgroundColor: currentPage === page ? "#a9b388" : "#5f6f52",
+              backgroundColor: currentPage === page ? "#575757" : "#111111",
               color: currentPage === page ? "#5f6f52" : "#a9b388",
               border: "1px solid #fefae0",
               borderRadius: "4px",
@@ -66,6 +73,13 @@ const ProductList = ({ products, selectedCategory }: Props) => {
         <Modal
           product={selectedProduct}
           onClose={() => setSelectedProduct(null)}
+          onUpdate={(updatedProduct) => {
+            const updatedList = products.map((p) =>
+              p.id === updatedProduct.id ? updatedProduct : p,
+            );
+            setProducts(updatedList);
+            setSelectedProduct(null);
+          }}
         />
       )}
     </>

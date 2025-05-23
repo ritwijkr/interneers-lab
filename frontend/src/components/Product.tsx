@@ -1,33 +1,37 @@
 import { Product as ProductType } from "./types";
+import fillImage from "../assets/fillImage.jpg";
 
 interface Props {
   product: ProductType;
+  onClick: () => void;
 }
 
-const Product = ({ product }: Props) => {
+const Product = ({ product, onClick }: Props) => {
   return (
     <div
       className="product-card"
+      onClick={onClick}
       style={{
-        background: "#783d19",
+        background: "#232323",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
         textAlign: "center",
         margin: "10px",
-        border: "1px solid #ccc",
+        border: "1px solid #000",
         borderRadius: "8px",
-        padding: "16px",
-        width: "200px",
+        padding: "60px",
+        width: "400px",
         cursor: "pointer",
-        boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+        boxShadow: "0 2px 8px rgba(0,0,0,0.9)",
+        transition: "transform 0.2s ease-in-out",
       }}
     >
       <img
-        src={product.imageUrl}
+        src={product.imageUrl || fillImage}
         alt={product.name}
-        style={{ width: "100%", borderRadius: "4px" }}
+        style={{ width: "50%", borderRadius: "4px" }}
       />
       <h3>{product.name}</h3>
       <p>{product.brand}</p>
