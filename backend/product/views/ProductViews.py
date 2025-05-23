@@ -7,7 +7,7 @@ class ProductListView(APIView):
     """API endpoint to list all products."""
     def get(self, request):
         products = ProductService.list_products()
-        data = [{"id": str(p.id), "name": p.name, "brand": p.brand, "category": p.category.title, "price": p.price, "quantity": p.quantity} for p in products]
+        data = [{"id": str(p.id), "name": p.name, "description": p.description, "brand": p.brand, "category": p.category.title, "price": p.price, "quantity": p.quantity} for p in products]
         return Response(data, status=status.HTTP_200_OK)
 
 class ProductCreateView(APIView):
